@@ -13,7 +13,12 @@ module.exports = function(app) {
   });
 
   app.post("/api/notes", function(req, res) {
-    notes.push(req.body);
-    res.json(req.body)
+    let note = req.body
+    notes.push(note);
+  
+    writeFileAsync(path.join(__dirname, '../db/db.json'), JSON.stringify(notes))
+    .then(() => {
+      res.json(note);
+    })
   });
 };
