@@ -1,5 +1,10 @@
   
-const notes = require('../db/db');
+const notes = require("../db/db");
+const fs = require("fs");
+const util = require("util")
+const path = require("path")
+
+const writeFileAsync = util.promisify(fs.writeFile);
 
 module.exports = function(app) {
 
@@ -7,4 +12,8 @@ module.exports = function(app) {
     return res.json(notes);
   });
 
+  app.post("/api/notes", function(req, res) {
+    notes.push(req.body);
+    res.json(req.body)
+  });
 };
